@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v4
         with:
             ref: refs/tags/2.0
-            submodules: recursive
+            submodules: true
           
       - name: Install Procursus
         uses: dhinakg/procursus-action@main
@@ -41,16 +41,7 @@ jobs:
           rm $THEOS/sdks/iPhoneOS16.5.sdk.tar
           cd $BASEDIR
 
-      - name: Build and Install trustcache
-        run: |
-          set -x
-          git clone https://github.com/CRKatri/trustcache
-          cd trustcache
-          export CFLAGS="$CFLAGS -I$(brew --prefix openssl)/include -arch arm64"
-          export LDFLAGS="$LDFLAGS -L$(brew --prefix openssl)/lib -arch arm64"
-          gmake -j$(sysctl -n hw.physicalcpu) OPENSSL=1
-          sudo cp trustcache /opt/procursus/bin/
-
+     
       - name: Set Environment Variables
         run: |
           set -x
@@ -61,13 +52,7 @@ jobs:
           echo "ctimestamp=${TS}" >> $GITHUB_ENV
           echo "shorthash=${SHASH}" >> $GITHUB_ENV
 
-      - name: Install libarchive
-        run: |
-          brew install libarchive
-
-      - name: Install libplist
-        run: |
-          brew install libplist
+      
 
       - name: Build
         run: |
