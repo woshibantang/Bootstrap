@@ -75,7 +75,7 @@ jobs:
           export BASEDIR="$(pwd)"
           export THEOS="${BASEDIR}/theos"
           rm -rf $(xcrun --sdk iphoneos --show-sdk-path)/usr/include/xpc $(xcrun --sdk iphoneos --show-sdk-path)/usr/include/xpc.modulemap
-          ./build.sh
+          make package
           VERSION=$(git rev-parse --short HEAD)
           mv ./packages/Bootstrap.tipa  "./packages/roothide-Bootstrap-${VERSION}.tipa"
           echo "version=${VERSION}" >> $GITHUB_ENV
